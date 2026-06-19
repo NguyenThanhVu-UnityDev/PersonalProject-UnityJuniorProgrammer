@@ -161,15 +161,17 @@ public class PlayerController : MonoBehaviour
         while (elapsed < switchingTrackTime)
         {
             end.y = transform.position.y;
-            elapsed += Time.deltaTime;
+            elapsed += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(elapsed / switchingTrackTime);
             Vector3 nextPos = Vector3.Lerp(start, end, t);
             if (playerRb != null) playerRb.MovePosition(nextPos);
-            yield return null;
+
+            yield return new WaitForFixedUpdate();
         }
 
         transform.position = end;
         switchTrackCoroutine = null;
+        cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
 
     private void StartCooldown()

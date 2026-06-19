@@ -751,14 +751,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04b64313afa34cc4db54f822ad1fd8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  runSpeed: 75
+  runSpeed: 20
   jumpForce: 5
   cooldownTime: 0.1
   tracksCount: 3
   trackWidth: 5
   trackSpacing: 1
   centerPosition: {x: 0, y: 0.65, z: 1}
-  switchingTrackTime: 0.5
+  switchingTrackTime: 0.2
   moveAction:
     m_Name: Move
     m_Type: 0
