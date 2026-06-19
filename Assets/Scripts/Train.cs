@@ -11,11 +11,12 @@ public class Train : MonoBehaviour
     }
 
     public float Speed { get => speed; set => speed = value; }
+    public float RelativeSpeed { get => speed + ((PlayerController.CurrentPlayer != null) ? PlayerController.CurrentPlayer .RunSpeed : 0); }
 
     private void Update()
     {
         if (trainRb == null) return;
-        Vector3 nextPos = transform.position + transform.forward * -1 * speed * Time.deltaTime;
+        Vector3 nextPos = transform.position + transform.forward * -1 * RelativeSpeed * Time.deltaTime;
         trainRb.MovePosition(nextPos);
     }
 }

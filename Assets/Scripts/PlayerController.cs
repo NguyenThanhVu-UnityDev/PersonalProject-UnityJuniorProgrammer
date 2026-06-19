@@ -4,6 +4,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    private static PlayerController currentPlayer;
+    public static PlayerController CurrentPlayer { get => currentPlayer; }
+
+    [SerializeField] float runSpeed = 20f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float cooldownTime = 0.1f;
     [Min(1)]
@@ -24,9 +28,12 @@ public class PlayerController : MonoBehaviour
     private Coroutine cooldownCoroutine = null;
     private Rigidbody playerRb;
 
+    public float RunSpeed { get => runSpeed; }
+
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
+        currentPlayer = this;
     }
 
     private void Start()

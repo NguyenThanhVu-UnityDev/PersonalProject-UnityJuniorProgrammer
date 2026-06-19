@@ -21,7 +21,6 @@ public class TrainSpawner : MonoBehaviour
 
     [Header("Train properties (shared across prefabs)")]
     [SerializeField, Min(0.01f)] float trainLength = 10f;
-    [SerializeField, Min(0.01f)] float trainSpeed = 10f;
     [Tooltip("Extra gap required between trains to avoid overlap")]
     [SerializeField, Min(0f)] float minSpacing = 0.5f;
 
@@ -29,17 +28,21 @@ public class TrainSpawner : MonoBehaviour
     [SerializeField] List<Train> dangerTrains = new();
     [SerializeField] List<Train> safeTrains = new();
 
+    private Dictionary<Train, List<Train>> spawnedTrains = new();
+
     // per-track spawn info
     private struct TrackInfo
     {
         public float lastSpawnTime;
+        public Train lastSpawnTrain;
         public TrainKind lastKind;
 
-        public bool HasActive(float now, float speed, float requiredDistance)
+        public bool HasActive(float now, float requiredDistance)
         {
             if (lastKind == TrainKind.None) return false;
-            float moved = (now - lastSpawnTime) * speed;
-            return moved < requiredDistance;
+            if (lastSpawnTrain == null || !lastSpawnTrain.gameObject.activeInHierarchy) return false;
+            float moved = (now - lastSpawnTime) * lastSpawnTrain.RelativeSpeed;
+            return moved >= requiredDistance;
         }
     }
 
@@ -100,7 +103,6 @@ public class TrainSpawner : MonoBehaviour
 
     void TrySpawnOnce()
     {
-        // prepare
         float now = Time.time;
         float requiredDistance = trainLength + minSpacing;
 
@@ -108,7 +110,7 @@ public class TrainSpawner : MonoBehaviour
         int dangerActiveCount = 0;
         for (int i = 0; i < trackInfos.Length; i++)
         {
-            if (trackInfos[i].lastKind == TrainKind.Danger && trackInfos[i].HasActive(now, trainSpeed, requiredDistance))
+            if (trackInfos[i].lastKind == TrainKind.Danger && trackInfos[i].HasActive(now, requiredDistance))
                 dangerActiveCount++;
         }
 
@@ -119,15 +121,10 @@ public class TrainSpawner : MonoBehaviour
         List<int> freeTracks = new List<int>(tracksCount);
         for (int i = 0; i < trackInfos.Length; i++)
         {
-            if (!trackInfos[i].HasActive(now, trainSpeed, requiredDistance))
-                freeTracks.Add(i);
+            if (!trackInfos[i].HasActive(now, requiredDistance)) freeTracks.Add(i);
         }
 
-        if (freeTracks.Count == 0)
-        {
-            // no free track to spawn on this tick
-            return;
-        }
+        if (freeTracks.Count == 0) return;
 
         // pick a random free track
         int chosenIndex = freeTracks[Random.Range(0, freeTracks.Count)];
@@ -174,14 +171,42 @@ public class TrainSpawner : MonoBehaviour
         }
 
         // instantiate train
-        Vector3 pos = GetLanePosition(chosenIndex);
-        var newTrain = Instantiate(prefab, pos, Quaternion.identity, transform);
-        newTrain.Speed = trainSpeed;
+        Vector3 spawnPos = GetLanePosition(chosenIndex);
+        Train newTrain = null;
+
+        if (spawnedTrains.ContainsKey(prefab))
+        {
+            foreach (var spawnedTrain in spawnedTrains[prefab])
+            {
+                if (spawnedTrain == null) return;
+                if (!spawnedTrain.gameObject.activeInHierarchy)
+                {
+                    newTrain = spawnedTrain;
+                    break;
+                }
+            }
+        }
+
+        if (newTrain == null)
+        {
+            newTrain = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
+            if (!spawnedTrains.ContainsKey(prefab))
+            {
+                spawnedTrains.Add(prefab, new());
+            }
+            spawnedTrains[prefab].Add(newTrain);
+        }
+        
+        if (newTrain != null)
+        {
+            newTrain.gameObject.SetActive(true);
+            newTrain.transform.position = spawnPos;
+        }
 
         // record spawn info for that track
         trackInfos[chosenIndex].lastSpawnTime = now;
         trackInfos[chosenIndex].lastKind = chosenKind;
-
+        trackInfos[chosenIndex].lastSpawnTrain = newTrain;
     }
 
     public void StartSpawning()
