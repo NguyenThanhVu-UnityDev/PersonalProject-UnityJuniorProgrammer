@@ -25,16 +25,16 @@ public class TrainSpawner : MonoBehaviour
     [SerializeField, Min(0f)] float minSpacing = 0.5f;
 
     [Header("Prefabs")]
-    [SerializeField] List<Train> dangerTrains = new();
-    [SerializeField] List<Train> safeTrains = new();
+    [SerializeField] List<MovingObject> dangerTrains = new();
+    [SerializeField] List<MovingObject> safeTrains = new();
 
-    private Dictionary<Train, List<Train>> spawnedTrains = new();
+    private Dictionary<MovingObject, List<MovingObject>> spawnedTrains = new();
 
     // per-track spawn info
     private struct TrackInfo
     {
         public float lastSpawnTime;
-        public Train lastSpawnTrain;
+        public MovingObject lastSpawnTrain;
         public TrainKind lastKind;
 
         public bool HasActive(float now, float requiredDistance)
@@ -131,7 +131,7 @@ public class TrainSpawner : MonoBehaviour
 
         // decide kind
         TrainKind chosenKind;
-        Train prefab = null;
+        MovingObject prefab = null;
 
         if (mustSpawnSafe)
         {
@@ -172,7 +172,7 @@ public class TrainSpawner : MonoBehaviour
 
         // instantiate train
         Vector3 spawnPos = GetLanePosition(chosenIndex);
-        Train newTrain = null;
+        MovingObject newTrain = null;
 
         if (spawnedTrains.ContainsKey(prefab))
         {
