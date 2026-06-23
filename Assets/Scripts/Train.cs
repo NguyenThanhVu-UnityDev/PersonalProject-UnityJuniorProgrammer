@@ -11,7 +11,7 @@ public class Train : MonoBehaviour
     }
 
     public float Speed { get => speed; set => speed = value; }
-    public float RelativeSpeed { get => speed + ((PlayerController.CurrentPlayer != null) ? PlayerController.CurrentPlayer .RunSpeed : 0); }
+    public float RelativeSpeed { get => speed + ((PlayerController.CurrentPlayer != null) ? PlayerController.CurrentPlayer.RunSpeed : 0); }
 
     private void FixedUpdate()
     {

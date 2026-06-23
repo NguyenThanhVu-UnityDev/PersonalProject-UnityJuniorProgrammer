@@ -1,16 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] float acceleration;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        if (PlayerController.CurrentPlayer != null)
+        {
+            PlayerController.CurrentPlayer.AddRunSpeed(acceleration * Time.deltaTime);
+        }
     }
 }

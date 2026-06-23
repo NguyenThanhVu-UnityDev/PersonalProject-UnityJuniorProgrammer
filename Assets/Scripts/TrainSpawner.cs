@@ -42,7 +42,7 @@ public class TrainSpawner : MonoBehaviour
             if (lastKind == TrainKind.None) return false;
             if (lastSpawnTrain == null || !lastSpawnTrain.gameObject.activeInHierarchy) return false;
             float moved = (now - lastSpawnTime) * lastSpawnTrain.RelativeSpeed;
-            return moved >= requiredDistance;
+            return moved < requiredDistance;
         }
     }
 

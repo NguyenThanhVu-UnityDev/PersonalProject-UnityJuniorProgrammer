@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     private static PlayerController currentPlayer;
     public static PlayerController CurrentPlayer { get => currentPlayer; }
 
-    [SerializeField] float runSpeed = 20f;
+    [SerializeField] float defaultRunSpeed = 20f;
+    [SerializeField] float maxRunSpeed = 100f;
     [SerializeField] float jumpForce = 5f;
     [SerializeField] float cooldownTime = 0.1f;
     [Min(1)]
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
     private Coroutine switchTrackCoroutine = null;
     private Coroutine cooldownCoroutine = null;
     private Rigidbody playerRb;
+    private float runSpeed;
 
     public float RunSpeed { get => runSpeed; }
 
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         transform.position = GetCurrentTrackPosition();
+        ResetRunSpeed();
     }
 
     private void OnEnable()
@@ -57,6 +60,17 @@ public class PlayerController : MonoBehaviour
     {
         Move();
         if (jumpAction.triggered) Jump();
+    }
+
+    public void ResetRunSpeed()
+    {
+        runSpeed = defaultRunSpeed;
+    }
+
+    public void AddRunSpeed(float increment)
+    {
+        runSpeed += increment;
+        if (runSpeed > maxRunSpeed) runSpeed = maxRunSpeed;
     }
 
     private void Move()
@@ -164,20 +178,13 @@ public class PlayerController : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(elapsed / switchingTrackTime);
             Vector3 nextPos = Vector3.Lerp(start, end, t);
-            if (playerRb != null) playerRb.MovePosition(nextPos);
+            if (playerRb != null) transform.position = nextPos;
 
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
 
         transform.position = end;
         switchTrackCoroutine = null;
-        cooldownCoroutine = StartCoroutine(CooldownCoroutine());
-    }
-
-    private void StartCooldown()
-    {
-        if (cooldownCoroutine != null) return;
-
         cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
 
