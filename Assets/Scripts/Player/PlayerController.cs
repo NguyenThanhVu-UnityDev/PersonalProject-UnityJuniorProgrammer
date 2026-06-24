@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private static PlayerController currentPlayer;
-    public static PlayerController CurrentPlayer { get => currentPlayer; }
+    private static PlayerController _currentPlayer;
+    public static PlayerController CurrentPlayer { get => _currentPlayer; }
 
     [SerializeField] float defaultRunSpeed = 20f;
     [SerializeField] float maxRunSpeed = 100f;
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         playerRb = GetComponent<Rigidbody>();
-        currentPlayer = this;
+        _currentPlayer = this;
     }
 
     private void Start()
@@ -88,8 +88,6 @@ public class PlayerController : MonoBehaviour
     {
         if (switchTrackCoroutine != null || playerRb == null) return;
 
-        Debug.Log("Try move left");
-
         if (currentTrackIndex <= 0)
         {
             currentTrackIndex = 0;
@@ -109,8 +107,6 @@ public class PlayerController : MonoBehaviour
     public void MoveRight()
     {
         if (switchTrackCoroutine != null || playerRb == null) return;
-
-        Debug.Log("Try move right");
 
         if (currentTrackIndex >= tracksCount - 1)
         {
