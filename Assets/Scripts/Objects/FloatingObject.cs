@@ -60,8 +60,8 @@ public class FloatingObject : MonoBehaviour
 
     private void InitState()
     {
-        transform.rotation = Quaternion.Euler(0, _startAngle, 0);
-        _startPosition = transform.position;
+        transform.localRotation = Quaternion.Euler(0, _startAngle, 0);
+        _startPosition = transform.localPosition;
     }
 
     private void Update()
@@ -78,7 +78,7 @@ public class FloatingObject : MonoBehaviour
         float offset = Mathf.Sin(Time.time * _floatSpeed) * _amplitude;
         Vector3 next = _startPosition;
         next.y += offset;
-        transform.position = next;
+        transform.localPosition = next;
     }
 
     private void Rotate()

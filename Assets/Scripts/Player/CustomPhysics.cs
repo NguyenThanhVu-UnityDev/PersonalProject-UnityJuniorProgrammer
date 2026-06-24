@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerPhysics : MonoBehaviour
+public class CustomPhysics : MonoBehaviour
 {
     [Header("Physics Settings")]
     [SerializeField] private LayerMask _groundLayer;

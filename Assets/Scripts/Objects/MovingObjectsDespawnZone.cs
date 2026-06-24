@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TrainDespawnZone : MonoBehaviour
+public class MovingObjectsDespawnZone : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
