@@ -35,9 +35,9 @@ public class CustomPhysics : MonoBehaviour
     private void Update()
     {
         ApplyGravity();
-        DetectGround();
         AdjustPosition();
         ApplyVelocity();
+        DetectGround();
     }
 
     private void ApplyGravity()
@@ -47,15 +47,21 @@ public class CustomPhysics : MonoBehaviour
 
     private void DetectGround()
     {
-        if (IsFalling && Physics.BoxCast((transform.position + _groundPoint) + Vector3.up * _safeZone, _overlapBoxHalfExtents, Vector3.down, out RaycastHit hitInfo, Quaternion.identity, _safeZone + _minDistanceToSnap, _groundLayer))
+        if (Physics.BoxCast((transform.position + _groundPoint) + Vector3.up * _safeZone, _overlapBoxHalfExtents, Vector3.down, out RaycastHit hitInfo, Quaternion.identity, _safeZone + _minDistanceToSnap, _groundLayer))
         {
             float distanceToSnap = hitInfo.distance - _safeZone;
-            transform.position += Vector3.down * distanceToSnap;
+            if (distanceToSnap < 0 || (distanceToSnap > 0 && IsFalling))
+            {
+                if (IsFalling)
+                {
+                    _isOnGround = true;
+                }
 
-            _isOnGround = true;
-            _velocity.y = 0;
+                transform.position += Vector3.down * distanceToSnap;
+                _velocity.y = 0;
+            }
+            else _isOnGround = false;
         }
-        else _isOnGround = false;
     }
 
     private void AdjustPosition()
@@ -65,7 +71,7 @@ public class CustomPhysics : MonoBehaviour
 
     private void ApplyVelocity()
     {
-        transform.position += _velocity;
+        transform.position += _velocity * Time.deltaTime;
     }
 
     private void OnDrawGizmos()

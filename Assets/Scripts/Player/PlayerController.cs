@@ -27,14 +27,14 @@ public class PlayerController : MonoBehaviour
 
     private Coroutine switchTrackCoroutine = null;
     private Coroutine cooldownCoroutine = null;
-    private Rigidbody playerRb;
+    private CustomPhysics customPhysics;
     private float runSpeed;
 
     public float RunSpeed { get => runSpeed; }
 
     private void Awake()
     {
-        playerRb = GetComponent<Rigidbody>();
+        customPhysics = GetComponent<CustomPhysics>();
         _currentPlayer = this;
     }
 
@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (switchTrackCoroutine != null || playerRb == null) return;
+        if (switchTrackCoroutine != null) return;
 
         if (currentTrackIndex <= 0)
         {
@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
 
     public void MoveRight()
     {
-        if (switchTrackCoroutine != null || playerRb == null) return;
+        if (switchTrackCoroutine != null) return;
 
         if (currentTrackIndex >= tracksCount - 1)
         {
@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (playerRb != null) playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        if (customPhysics != null && customPhysics.IsOnGround) customPhysics.AddInstantForce(Vector3.up * jumpForce);
     }
 
     private Vector3 GetCurrentTrackPosition()
@@ -174,7 +174,7 @@ public class PlayerController : MonoBehaviour
             elapsed += Time.fixedDeltaTime;
             float t = Mathf.Clamp01(elapsed / switchingTrackTime);
             Vector3 nextPos = Vector3.Lerp(start, end, t);
-            if (playerRb != null) transform.position = nextPos;
+            transform.position = nextPos;
 
             yield return null;
         }
