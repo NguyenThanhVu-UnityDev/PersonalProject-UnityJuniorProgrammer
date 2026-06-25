@@ -26,15 +26,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        InvokeRepeating(nameof(DemoIncrement), 0f, 0.2f);
+        PlayerEvents.OnCollectedGrapeChanged += UpdateGrapeCollectedUI;
     }
 
-    public void DemoIncrement()
+    private void OnDisable()
     {
-        UpdateGrapeCollectedUI(Random.Range(0, 100));
+        PlayerEvents.OnCollectedGrapeChanged -= UpdateGrapeCollectedUI;
     }
+
     private void UpdateGrapeCollectedUI(int newAmount)
     {
         if (_grapeCollectedText != null)

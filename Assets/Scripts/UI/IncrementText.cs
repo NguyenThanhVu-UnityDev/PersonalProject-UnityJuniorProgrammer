@@ -9,9 +9,11 @@ public class IncrementText : MonoBehaviour
 
     public void SetIncrement(int increment)
     {
-        _mainText.text = increment.ToString();
+        _mainText.text = (increment >= 0) ?
+            "+" + increment.ToString() :
+            increment.ToString();
 
-        _mainText.color = (increment > 0) ?
+        _mainText.color = (increment >= 0) ?
             _increaseColor :
             _decreaseColor;
     }

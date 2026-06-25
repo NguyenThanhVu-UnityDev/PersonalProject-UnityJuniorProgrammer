@@ -7,82 +7,86 @@ public class PlayerController : MonoBehaviour
     private static PlayerController _currentPlayer;
     public static PlayerController CurrentPlayer { get => _currentPlayer; }
 
-    [SerializeField] float defaultRunSpeed = 20f;
-    [SerializeField] float maxRunSpeed = 100f;
-    [SerializeField] float jumpForce = 5f;
-    [SerializeField] float dropForce = 5f;
-    [SerializeField] float cooldownTime = 0.1f;
+    [SerializeField] float _defaultRunSpeed = 20f;
+    [SerializeField] float _maxRunSpeed = 100f;
+    [SerializeField] float _jumpForce = 5f;
+    [SerializeField] float _dropForce = 5f;
+    [SerializeField] float _cooldownTime = 0.1f;
     [Min(1)]
-    [SerializeField] int tracksCount = 1;
-    [SerializeField] float trackWidth = 10;
-    [SerializeField] float trackSpacing = 5;
-    [SerializeField] Vector3 centerPosition = new();
-    [SerializeField] float switchingTrackTime = 0.5f;
+    [SerializeField] int _tracksCount = 1;
+    [SerializeField] float _trackWidth = 10;
+    [SerializeField] float _trackSpacing = 5;
+    [SerializeField] Vector3 _centerPosition = new();
+    [SerializeField] float _switchingTrackTime = 0.5f;
 
-    [SerializeField] InputAction moveAction;
-    [SerializeField] InputAction jumpAction;
-    [SerializeField] InputAction instantDropAction;
+    [SerializeField] InputAction _moveAction;
+    [SerializeField] InputAction _jumpAction;
+    [SerializeField] InputAction _instantDropAction;
 
-    private int previousTrackIndex = 0;
-    private int currentTrackIndex = 0;
-    private Vector3 targetPosition = new();
+    private bool _isRunning = false;
 
-    private Coroutine switchTrackCoroutine = null;
-    private Coroutine cooldownCoroutine = null;
-    private CustomPhysics customPhysics;
-    private float runSpeed;
+    private int _currentTrackIndex = 0;
+    private Vector3 _targetPosition = new();
 
-    public float RunSpeed { get => runSpeed; }
+    private Coroutine _switchTrackCoroutine = null;
+    private Coroutine _cooldownCoroutine = null;
+    private CustomPhysics _customPhysics;
+    private float _runSpeed;
+
+    public float RunSpeed { get => _runSpeed; }
 
     private void Awake()
     {
-        customPhysics = GetComponent<CustomPhysics>();
+        _customPhysics = GetComponent<CustomPhysics>();
         _currentPlayer = this;
     }
 
     private void Start()
     {
+        _isRunning = true;
         transform.position = GetCurrentTrackPosition();
         ResetRunSpeed();
     }
 
     private void OnEnable()
     {
-        moveAction.Enable();
-        jumpAction.Enable();
-        instantDropAction.Enable();
+        _moveAction.Enable();
+        _jumpAction.Enable();
+        _instantDropAction.Enable();
     }
 
     private void OnDisable()
     {
-        moveAction.Disable();
-        jumpAction.Disable();
-        instantDropAction.Disable();
+        _moveAction.Disable();
+        _jumpAction.Disable();
+        _instantDropAction.Disable();
     }
 
     private void Update()
     {
+        if (!_isRunning) return;
+
         Move();
-        if (jumpAction.triggered) Jump();
-        if (instantDropAction.triggered) InstantDrop();
+        if (_jumpAction.triggered) Jump();
+        if (_instantDropAction.triggered) InstantDrop();
     }
 
     public void ResetRunSpeed()
     {
-        runSpeed = defaultRunSpeed;
+        _runSpeed = _defaultRunSpeed;
     }
 
     public void AddRunSpeed(float increment)
     {
-        runSpeed += increment;
-        if (runSpeed > maxRunSpeed) runSpeed = maxRunSpeed;
+        _runSpeed += increment;
+        if (_runSpeed > _maxRunSpeed) _runSpeed = _maxRunSpeed;
     }
 
     private void Move()
     {
-        if (cooldownCoroutine != null) return;
+        if (_cooldownCoroutine != null || !_isRunning) return;
 
-        Vector2 moveInput = moveAction.ReadValue<Vector2>().normalized;
+        Vector2 moveInput = _moveAction.ReadValue<Vector2>().normalized;
         float horizontalInput = moveInput.x;
 
         if (horizontalInput > 0) MoveRight();
@@ -91,105 +95,107 @@ public class PlayerController : MonoBehaviour
 
     public void MoveLeft()
     {
-        if (switchTrackCoroutine != null) return;
+        if (_switchTrackCoroutine != null || !_isRunning) return;
 
-        if (currentTrackIndex <= 0)
+        if (_currentTrackIndex <= 0)
         {
-            currentTrackIndex = 0;
-            previousTrackIndex = 0;
+            _currentTrackIndex = 0;
             return;
         }
 
-        previousTrackIndex = currentTrackIndex;
-        currentTrackIndex--;
-        currentTrackIndex = Mathf.Clamp(currentTrackIndex, 0, tracksCount - 1);
+        _currentTrackIndex--;
+        _currentTrackIndex = Mathf.Clamp(_currentTrackIndex, 0, _tracksCount - 1);
 
         // update target and start switching routine (stop any existing one first)
-        targetPosition = GetCurrentTrackPosition();
-        switchTrackCoroutine = StartCoroutine(SwitchTrackRoutine());
+        _targetPosition = GetCurrentTrackPosition();
+        _switchTrackCoroutine = StartCoroutine(SwitchTrackRoutine());
     }
 
     public void MoveRight()
     {
-        if (switchTrackCoroutine != null) return;
+        if (_switchTrackCoroutine != null || !_isRunning) return;
 
-        if (currentTrackIndex >= tracksCount - 1)
+        if (_currentTrackIndex >= _tracksCount - 1)
         {
-            previousTrackIndex = currentTrackIndex = tracksCount - 1;
             return;
         }
 
-        previousTrackIndex = currentTrackIndex;
-        currentTrackIndex++;
-        currentTrackIndex = Mathf.Clamp(currentTrackIndex, 0, tracksCount - 1);
+        _currentTrackIndex++;
+        _currentTrackIndex = Mathf.Clamp(_currentTrackIndex, 0, _tracksCount - 1);
 
         // update target and start switching routine (stop any existing one first)
-        targetPosition = GetCurrentTrackPosition();
-        switchTrackCoroutine = StartCoroutine(SwitchTrackRoutine());
+        _targetPosition = GetCurrentTrackPosition();
+        _switchTrackCoroutine = StartCoroutine(SwitchTrackRoutine());
     }
 
     public void CancelMove()
     {
-        if (switchTrackCoroutine != null) StopCoroutine(switchTrackCoroutine);
-        switchTrackCoroutine = null;
+        if (_switchTrackCoroutine != null) StopCoroutine(_switchTrackCoroutine);
+        _switchTrackCoroutine = null;
 
-        if (transform.position.x < targetPosition.x) MoveLeft();
+        if (transform.position.x < _targetPosition.x) MoveLeft();
         else MoveRight();
     }
 
     public void Jump()
     {
-        if (customPhysics != null && customPhysics.IsOnGround)
+        if (_customPhysics != null && _customPhysics.IsOnGround)
         {
-            customPhysics.AddInstantForce(Vector3.up * jumpForce);
+            _customPhysics.AddInstantForce(Vector3.up * _jumpForce);
         }
     }
 
     public void InstantDrop()
     {
-        if (customPhysics != null && !customPhysics.IsOnGround)
+        if (_customPhysics != null && !_customPhysics.IsOnGround)
         {
-            customPhysics.SetVelocityY(0);
-            customPhysics.AddInstantForce(Vector3.down * dropForce);
+            _customPhysics.SetVelocityY(0);
+            _customPhysics.AddInstantForce(Vector3.down * _dropForce);
         }
     }
 
     private Vector3 GetCurrentTrackPosition()
     {
         // Clamp index to be safe
-        int index = Mathf.Clamp(currentTrackIndex, 0, tracksCount - 1);
+        int index = Mathf.Clamp(_currentTrackIndex, 0, _tracksCount - 1);
 
         // total width occupied by lane centers
-        float totalWidth = tracksCount * trackWidth + (tracksCount - 1) * trackSpacing;
+        float totalWidth = _tracksCount * _trackWidth + (_tracksCount - 1) * _trackSpacing;
 
         // x position of the first (left-most) lane center
-        float firstLaneX = centerPosition.x - totalWidth * 0.5f + trackWidth * 0.5f;
+        float firstLaneX = _centerPosition.x - totalWidth * 0.5f + _trackWidth * 0.5f;
 
         // distance between adjacent lane centers
-        float stride = trackWidth + trackSpacing;
+        float stride = _trackWidth + _trackSpacing;
 
         float x = firstLaneX + index * stride;
-        return new Vector3(x, centerPosition.y, centerPosition.z);
+        return new Vector3(x, _centerPosition.y, _centerPosition.z);
+    }
+
+    public void Stop()
+    {
+        _isRunning = false;
+        _runSpeed = 0;
     }
 
     IEnumerator SwitchTrackRoutine()
     {
         Vector3 start = transform.position;
-        Vector3 end = targetPosition;
+        Vector3 end = _targetPosition;
 
-        if (switchingTrackTime <= 0f)
+        if (_switchingTrackTime <= 0f)
         {
             transform.position = end;
-            switchTrackCoroutine = null;
+            _switchTrackCoroutine = null;
             yield break;
         }
 
         float elapsed = 0f;
-        while (elapsed < switchingTrackTime)
+        while (elapsed < _switchingTrackTime)
         {
             end.y = transform.position.y;
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / switchingTrackTime);
+            float t = Mathf.Clamp01(elapsed / _switchingTrackTime);
             Vector3 nextPos = transform.position;
             nextPos.x = Mathf.Lerp(start.x, end.x, t);
             transform.position = nextPos;
@@ -198,13 +204,13 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = end;
-        switchTrackCoroutine = null;
-        cooldownCoroutine = StartCoroutine(CooldownCoroutine());
+        _switchTrackCoroutine = null;
+        _cooldownCoroutine = StartCoroutine(CooldownCoroutine());
     }
 
     IEnumerator CooldownCoroutine()
     {
-        yield return new WaitForSeconds(cooldownTime);
-        cooldownCoroutine = null;
+        yield return new WaitForSeconds(_cooldownTime);
+        _cooldownCoroutine = null;
     }
 }

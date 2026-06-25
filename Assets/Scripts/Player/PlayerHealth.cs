@@ -4,7 +4,6 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 {
     [SerializeField] private int _initHealth = 1;
-    [SerializeField] private int _maxHealth = 10;
     [SerializeField] private float _takeDamageCooldownTime = 0.5f;
 
     private int _health;
@@ -14,20 +13,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
     private void Start()
     {
         _health = _initHealth;
+
+        PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     public void Heal(int heal)
     {
-        if (_health >= _maxHealth) return;
-
         _health += heal;
 
-        if (_health > _maxHealth)
-        {
-            _health = _maxHealth;
-        }
-
-        Debug.Log("Current health: " + _health);
+        PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     public void TakeDamage(int damage)
@@ -39,16 +33,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         if (_health < 0)
         {
             _health = 0;
+            Dead();
         }
 
         _takeDamageCoolDownCoroutine = StartCoroutine(TakeDamageCooldownCoroutine());
 
-        Debug.Log("Current health: " + _health);
+        PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     private IEnumerator TakeDamageCooldownCoroutine()
     {
         yield return new WaitForSeconds(_takeDamageCooldownTime);
+        _takeDamageCoolDownCoroutine = null;
     }
 
     public void OnMinorHit(GameObject hitObj)
@@ -65,11 +61,25 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
                 playerController.MoveLeft();
             }
         }
-
     }
 
     public void OnMajorHit(GameObject hitObj)
     {
-        Debug.Log("Die");
+        Dead();
+    }
+
+    private void Dead()
+    {
+        Debug.Log("Dead");
+
+        _health = 0;
+        PlayerEvents.RaiseCollectedGrapeChanged(_health);
+        PlayerEvents.RaisePlayerDead();
+
+        if (TryGetComponent(out PlayerController playerController))
+        {
+            playerController.CancelMove();
+            playerController.Stop();
+        }
     }
 }
