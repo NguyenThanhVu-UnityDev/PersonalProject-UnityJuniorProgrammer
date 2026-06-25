@@ -4,9 +4,9 @@ public class Hitbox : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerController player))
+        if (other.TryGetComponent(out IHittable hittable))
         {
-            player.CancelMove();
+            hittable.OnMinorHit(this.gameObject);
         }
     }
 }

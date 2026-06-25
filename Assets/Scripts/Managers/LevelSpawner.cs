@@ -23,6 +23,7 @@ public class LevelSpawner : MonoBehaviour
 
     [Header("Train properties (shared across prefabs)")]
     [SerializeField, Min(0.01f)] float _trainLength = 10f;
+    [SerializeField, Min(0.01f)] float _trainHeight = 4;
     [Tooltip("Extra gap required between trains to avoid overlap")]
     [SerializeField, Min(0f)] float _minTrainSpacing = 0.5f;
 
@@ -74,7 +75,7 @@ public class LevelSpawner : MonoBehaviour
 
 
     // left-anchor approach — same math PlayerController uses
-    Vector3 GetLanePosition(int index)
+    Vector3 GetLanePosition(int index, float yPos, float zPos)
     {
         index = Mathf.Clamp(index, 0, _tracksCount - 1);
 
@@ -88,7 +89,7 @@ public class LevelSpawner : MonoBehaviour
         float stride = _trackWidth + _trackSpacing;
 
         float x = firstLaneX + index * stride;
-        return new Vector3(x, _trainSpawnY, _trainSpawnZ);
+        return new Vector3(x, yPos, zPos);
     }
 
     IEnumerator TrainsSpawnLoop()
@@ -172,8 +173,8 @@ public class LevelSpawner : MonoBehaviour
         // instantiate train
         if (chosenPrefab == null || PoolManager.Instance == null) return;
 
-        Vector3 spawnPos = GetLanePosition(chosenIndex);
-        MovingObject newTrain = PoolManager.Instance.SpawnObject(chosenPrefab, spawnPos, Quaternion.identity);
+        Vector3 spawnPos = GetLanePosition(chosenIndex, _trainSpawnY, _trainSpawnZ);
+        MovingObject newTrain = PoolManager.Instance.SpawnObject(chosenPrefab, spawnPos, Quaternion.identity, PoolManager.PoolType.GameObject);
         
         if (newTrain != null)
         {
@@ -211,16 +212,10 @@ public class LevelSpawner : MonoBehaviour
         // Tracks that doesnt not have an active train
         float now = Time.time;
         float requiredDistance = _trainLength + _minCollectibleSpacing;
-        List<int> freeTracks = new List<int>(_tracksCount);
-        for (int i = 0; i < _trackInfos.Length; i++)
-        {
-            if (!_trackInfos[i].HasActive(now, requiredDistance)) freeTracks.Add(i);
-        }
 
-        if (freeTracks.Count == 0) return;
-
-        // pick a random free track
-        int chosenIndex = freeTracks[UnityEngine.Random.Range(0, freeTracks.Count)];
+        // pick a random track
+        int chosenIndex = UnityEngine.Random.Range(0, _trackInfos.Length);
+        bool trackHasActive = _trackInfos[chosenIndex].HasActive(now, requiredDistance);
 
         float randomValue = UnityEngine.Random.Range(0f, 1.0f);
         float accumulateSpawnRate = 0;
@@ -239,11 +234,21 @@ public class LevelSpawner : MonoBehaviour
 
         if (chosenCollectiblePrefab == null || PoolManager.Instance == null) return;
 
-        Vector3 spawnPos = GetLanePosition(chosenIndex);
+        Vector3 spawnPos = GetLanePosition(chosenIndex, (trackHasActive) ? _collectibleSpawnY * _trainHeight : _collectibleSpawnY, _collectibleSpawnZ);
 
-        var newCollectible = PoolManager.Instance.SpawnObject(chosenCollectiblePrefab, spawnPos, Quaternion.identity);
+        var newCollectible = PoolManager.Instance.SpawnObject(chosenCollectiblePrefab, spawnPos, Quaternion.identity, PoolManager.PoolType.GameObject);
     }
 
+    public void StartSpawningCollectibles()
+    {
+        if (_collectiblesSpawnCoroutine == null) _collectiblesSpawnCoroutine = StartCoroutine(CollectiblesSpawnLoop());
+    }
+
+    public void StopSpawningCollectibles()
+    {
+        if (_collectiblesSpawnCoroutine != null) StopCoroutine(_collectiblesSpawnCoroutine);
+    }
+    
     // per-track spawn info
     private struct TrackInfo
     {

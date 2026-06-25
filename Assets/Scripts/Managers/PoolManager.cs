@@ -4,7 +4,7 @@ using UnityEngine.Pool;
 
 public class PoolManager : MonoBehaviour
 {
-    public enum PoolType { GameObject, Particle }
+    public enum PoolType { GameObject, Particle, None }
 
     [SerializeField] private int _defaultCapacity = 20;
     [SerializeField] private int _maxSize = 50;
@@ -73,6 +73,10 @@ public class PoolManager : MonoBehaviour
         {
             newObject.transform.SetParent(parentHolder.transform);
         }
+        else
+        {
+            newObject.transform.SetParent(prefab.transform.parent);
+        }
 
         return newObject;
     }
@@ -102,12 +106,13 @@ public class PoolManager : MonoBehaviour
                 return _gameObjectsHolder;
             case PoolType.Particle:
                 return _particlesHolder;
+            case PoolType.None:
             default:
                 return null;
         }
     }
 
-    public T SpawnObject<T> (GameObject prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.GameObject) where T: Object
+    public T SpawnObject<T> (GameObject prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.None) where T: Object
     {
         if (!_pools.ContainsKey(prefab))
         {
@@ -140,12 +145,12 @@ public class PoolManager : MonoBehaviour
         return null;
     }
 
-    public T SpawnObject<T> (T prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.GameObject) where T: Component
+    public T SpawnObject<T> (T prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.None) where T: Component
     {
         return SpawnObject<T>(prefab.gameObject, pos, rot, poolType);
     }
 
-    public GameObject SpawnObject(GameObject prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.GameObject)
+    public GameObject SpawnObject(GameObject prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.None)
     {
         return SpawnObject<GameObject>(prefab, pos, rot, poolType);
     }

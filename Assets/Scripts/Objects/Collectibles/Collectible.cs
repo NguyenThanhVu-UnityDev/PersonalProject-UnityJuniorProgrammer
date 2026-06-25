@@ -12,7 +12,7 @@ public abstract class Collectible : MonoBehaviour
 
     protected virtual void PlayParticles()
     {
-        if (PoolManager.Instance == null) return;
+        if (PoolManager.Instance == null || _collectedParticlePrefab == null) return;
 
         var collectedParticle = PoolManager.Instance.SpawnObject(_collectedParticlePrefab, transform.position, Quaternion.identity, PoolManager.PoolType.Particle);
     }

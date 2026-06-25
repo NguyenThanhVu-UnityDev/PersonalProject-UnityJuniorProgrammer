@@ -60,7 +60,14 @@ public class CustomPhysics : MonoBehaviour
                 transform.position += Vector3.down * distanceToSnap;
                 _velocity.y = 0;
             }
-            else _isOnGround = false;
+            else
+            {
+                _isOnGround = false;
+            }
+        }
+        else
+        {
+            _isOnGround = false;
         }
     }
 
@@ -72,6 +79,11 @@ public class CustomPhysics : MonoBehaviour
     private void ApplyVelocity()
     {
         transform.position += _velocity * Time.deltaTime;
+    }
+
+    public void SetVelocityY(float y)
+    {
+        _velocity.y = y;
     }
 
     private void OnDrawGizmos()

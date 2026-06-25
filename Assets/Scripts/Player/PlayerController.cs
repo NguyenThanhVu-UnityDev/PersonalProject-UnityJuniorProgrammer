@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float defaultRunSpeed = 20f;
     [SerializeField] float maxRunSpeed = 100f;
     [SerializeField] float jumpForce = 5f;
+    [SerializeField] float dropForce = 5f;
     [SerializeField] float cooldownTime = 0.1f;
     [Min(1)]
     [SerializeField] int tracksCount = 1;
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] InputAction moveAction;
     [SerializeField] InputAction jumpAction;
+    [SerializeField] InputAction instantDropAction;
 
     private int previousTrackIndex = 0;
     private int currentTrackIndex = 0;
@@ -48,18 +50,21 @@ public class PlayerController : MonoBehaviour
     {
         moveAction.Enable();
         jumpAction.Enable();
+        instantDropAction.Enable();
     }
 
     private void OnDisable()
     {
         moveAction.Disable();
         jumpAction.Disable();
+        instantDropAction.Disable();
     }
 
     private void Update()
     {
         Move();
         if (jumpAction.triggered) Jump();
+        if (instantDropAction.triggered) InstantDrop();
     }
 
     public void ResetRunSpeed()
@@ -134,7 +139,19 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (customPhysics != null && customPhysics.IsOnGround) customPhysics.AddInstantForce(Vector3.up * jumpForce);
+        if (customPhysics != null && customPhysics.IsOnGround)
+        {
+            customPhysics.AddInstantForce(Vector3.up * jumpForce);
+        }
+    }
+
+    public void InstantDrop()
+    {
+        if (customPhysics != null && !customPhysics.IsOnGround)
+        {
+            customPhysics.SetVelocityY(0);
+            customPhysics.AddInstantForce(Vector3.down * dropForce);
+        }
     }
 
     private Vector3 GetCurrentTrackPosition()
@@ -171,9 +188,10 @@ public class PlayerController : MonoBehaviour
         while (elapsed < switchingTrackTime)
         {
             end.y = transform.position.y;
-            elapsed += Time.fixedDeltaTime;
+            elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / switchingTrackTime);
-            Vector3 nextPos = Vector3.Lerp(start, end, t);
+            Vector3 nextPos = transform.position;
+            nextPos.x = Mathf.Lerp(start.x, end.x, t);
             transform.position = nextPos;
 
             yield return null;
