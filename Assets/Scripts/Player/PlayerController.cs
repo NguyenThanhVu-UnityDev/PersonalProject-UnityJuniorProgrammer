@@ -91,6 +91,14 @@ public class PlayerController : MonoBehaviour
 
         if (horizontalInput > 0) MoveRight();
         else if (horizontalInput < 0) MoveLeft();
+
+        if (_switchTrackCoroutine == null)
+        {
+            Vector3 currentTrackPos = GetCurrentTrackPosition();
+            Vector3 justifiedPos = transform.position;
+            justifiedPos.x = currentTrackPos.x;
+            transform.position = justifiedPos;
+        }
     }
 
     public void MoveLeft()
@@ -133,8 +141,8 @@ public class PlayerController : MonoBehaviour
         if (_switchTrackCoroutine != null) StopCoroutine(_switchTrackCoroutine);
         _switchTrackCoroutine = null;
 
-        if (transform.position.x < _targetPosition.x) MoveLeft();
-        else MoveRight();
+        //if (transform.position.x < _targetPosition.x) MoveLeft();
+        //else MoveRight();
     }
 
     public void Jump()

@@ -5,10 +5,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 {
     [SerializeField] private int _initHealth = 1;
     [SerializeField] private float _takeDamageCooldownTime = 0.5f;
+    [SerializeField] private Animator _animator;
+    [SerializeField] private string _dieTrigger = "Die";
 
     private int _health;
 
     private Coroutine _takeDamageCoolDownCoroutine = null;
+
+    public bool IsDead => _health <= 0;
 
     private void Start()
     {
@@ -19,6 +23,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
     public void Heal(int heal)
     {
+        if (IsDead) return;
+
         _health += heal;
 
         PlayerEvents.RaiseCollectedGrapeChanged(_health);
@@ -30,7 +36,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
         _health -= damage;
 
-        if (_health < 0)
+        if (_health <= 0)
         {
             _health = 0;
             Dead();
@@ -49,6 +55,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
     public void OnMinorHit(GameObject hitObj)
     {
+        if (IsDead) return;
+
         if (TryGetComponent(out PlayerController playerController))
         {
             playerController.CancelMove();
@@ -70,7 +78,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
     private void Dead()
     {
-        Debug.Log("Dead");
+        if (_animator != null)
+        {
+            _animator.SetTrigger(_dieTrigger);
+        }
 
         _health = 0;
         PlayerEvents.RaiseCollectedGrapeChanged(_health);
