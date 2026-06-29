@@ -13,11 +13,19 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
     public bool IsDead => (_gameData != null) ? _gameData.CollectedGrape <= 0 : false;
 
+    private void OnValidate()
+    {
+        if (_gameData == null)
+        {
+            Debug.LogWarning("[PlayerHealth] Please assign a game data!");
+        }
+    }
+
     private void OnEnable()
     {
         if (_gameData != null)
         {
-            _gameData.OnDead += OnDead;
+            _gameData.OnDead += Dead;
         }
         else
         {
@@ -29,7 +37,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
     {
         if (_gameData != null)
         {
-            _gameData.OnDead -= OnDead;
+            _gameData.OnDead -= Dead;
         }
         else
         {
@@ -40,6 +48,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
     private void Start()
     {
         _gameData.CollectedGrape = _initCollectedGrape;
+        _gameData.StartGame();
 
         //PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
@@ -82,11 +91,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         _takeDamageCoolDownCoroutine = null;
     }
 
-    private void OnDead()
-    {
-        Dead();
-    }
-
     public void OnMinorHit(GameObject hitObj)
     {
         if (IsDead) return;
@@ -124,6 +128,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         {
             playerController.CancelMove();
             playerController.Stop();
+        }
+
+        if (_gameData == null)
+        {
+            Debug.LogError("[PlayerHealth] Game data is missing!");
+        }
+        else
+        {
+            _gameData.StopGame();
         }
     }
 }

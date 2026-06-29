@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
 public interface IPoolObject
 {
-    public void ReturnToPool();
+    public Action<GameObject> OnReturnToPool { get; set; }
 }

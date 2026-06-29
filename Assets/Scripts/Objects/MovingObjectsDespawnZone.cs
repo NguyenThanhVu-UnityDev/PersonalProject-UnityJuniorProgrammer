@@ -7,6 +7,7 @@ public class MovingObjectsDespawnZone : MonoBehaviour
         if (other.GetComponent<MovingObject>() != null)
         {
             other.gameObject.SetActive(false);
+            Debug.Log($"[MovingObjectDespawnZone] Detect moving object: {other.name}");
         }
     }
 }

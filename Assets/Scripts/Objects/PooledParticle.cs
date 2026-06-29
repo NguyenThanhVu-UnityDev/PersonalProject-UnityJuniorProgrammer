@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class PooledParticle : MonoBehaviour, IPoolObject
 {
+    public Action<GameObject> OnReturnToPool { get; set; }
+
     private void Awake()
     {
         ParticleSystem particleSystem = GetComponent<ParticleSystem>();
@@ -13,14 +16,7 @@ public class PooledParticle : MonoBehaviour, IPoolObject
     }
     private void OnParticleSystemStopped()
     {
-        ReturnToPool();
+        OnReturnToPool?.Invoke(gameObject);
     }
 
-    public void ReturnToPool()
-    {
-        if (PoolManager.Instance != null)
-        {
-            PoolManager.Instance.ReturnToPool(gameObject);
-        }
-    }
 }

@@ -87,6 +87,11 @@ public class PoolManager : MonoBehaviour
     {
         obj.SetActive(false);
 
+        if (obj.TryGetComponent(out IPoolObject poolObject))
+        {
+            poolObject.OnReturnToPool -= ReturnToPool;
+        }
+
         if (_poolMap.ContainsKey(obj))
         {
             _poolMap.Remove(obj);
@@ -95,6 +100,11 @@ public class PoolManager : MonoBehaviour
 
     private void OnDestroyObject(GameObject obj)
     {
+        if (obj.TryGetComponent(out IPoolObject poolObject))
+        {
+            poolObject.OnReturnToPool -= ReturnToPool;
+        }
+
         Destroy(obj);
     }
 
@@ -114,6 +124,19 @@ public class PoolManager : MonoBehaviour
 
     public T SpawnObject<T> (GameObject prefab, Vector3 pos, Quaternion rot, PoolType poolType = PoolType.None) where T: Object
     {
+        if (prefab == null)
+        {
+            Debug.LogError("[PoolManager] Cannot spawn null object!");
+            return null;
+        }
+
+        if (prefab.GetComponent<IPoolObject>() == null)
+        {
+            Debug.LogError($"[PoolManager] IPoolObject component is required on {prefab.name}!");
+            return null;
+        }
+
+
         if (!_pools.ContainsKey(prefab))
         {
             CreateNewPool(prefab, poolType);
@@ -124,6 +147,11 @@ public class PoolManager : MonoBehaviour
 
         newObj.transform.SetPositionAndRotation(pos, rot);
         newObj.SetActive(true);
+
+        if (newObj.TryGetComponent(out IPoolObject poolObject))
+        {
+            poolObject.OnReturnToPool += ReturnToPool;
+        }
 
         if (!_poolMap.ContainsKey(newObj))
         {

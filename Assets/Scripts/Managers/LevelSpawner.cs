@@ -7,6 +7,8 @@ using static UnityEngine.Rendering.DebugUI.Table;
 public class LevelSpawner : MonoBehaviour
 {
     public enum TrainKind { None, Danger, Safe }
+    [Header("Data")]
+    [SerializeField] GameData _gameData;
 
     [Header("Track layout")]
     [Min(1)]
@@ -52,27 +54,34 @@ public class LevelSpawner : MonoBehaviour
         _trackInfos = new TrackInfo[_tracksCount];
     }
 
-    void OnEnable()
-    {
-        // start spawning
-        _trainsSpawnCoroutine = StartCoroutine(TrainsSpawnLoop());
-
-        _collectiblesSpawnCoroutine = StartCoroutine(CollectiblesSpawnLoop());
-    }
-
-    void OnDisable()
-    {
-        // Stop spawning when the game end
-        if (_trainsSpawnCoroutine != null) StopCoroutine(_trainsSpawnCoroutine);
-        _trainsSpawnCoroutine = null;
-    }
-
     void OnValidate()
     {
         if (_trackWidth < 0f) _trackWidth = 0f;
         if (_trackSpacing < 0f) _trackSpacing = 0f;
+
+        if (_gameData == null)
+        {
+            Debug.LogWarning("[LevelSpawner] Please assign a game data!");
+        }
     }
 
+    void OnEnable()
+    {
+        if (_gameData != null)
+        {
+            _gameData.OnGameStarted += GameStarted;
+            _gameData.OnGameEnded += GameEnded;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (_gameData != null)
+        {
+            _gameData.OnGameStarted -= GameStarted;
+            _gameData.OnGameEnded -= GameEnded;
+        }
+    }
 
     // left-anchor approach — same math PlayerController uses
     Vector3 GetLanePosition(int index, float yPos, float zPos)
@@ -90,6 +99,26 @@ public class LevelSpawner : MonoBehaviour
 
         float x = firstLaneX + index * stride;
         return new Vector3(x, yPos, zPos);
+    }
+
+    private void GameStarted()
+    {
+        Debug.Log("Game started");
+
+        _trainsSpawnCoroutine = StartCoroutine(TrainsSpawnLoop());
+        _collectiblesSpawnCoroutine = StartCoroutine(CollectiblesSpawnLoop());
+    }
+
+    private void GameEnded()
+    {
+        if (_trainsSpawnCoroutine != null)
+        {
+            StopCoroutine(_trainsSpawnCoroutine);
+        }
+        if (_collectiblesSpawnCoroutine != null)
+        {
+            StopCoroutine(_collectiblesSpawnCoroutine);
+        }
     }
 
     IEnumerator TrainsSpawnLoop()

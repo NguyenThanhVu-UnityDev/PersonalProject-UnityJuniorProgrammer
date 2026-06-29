@@ -5,6 +5,19 @@ public class CollectedGrapePresenter : MonoBehaviour
     [SerializeField] private GameData _gameData;
     [SerializeField] private CollectedGrapeView _view;
 
+    private void OnValidate()
+    {
+        if (_gameData == null)
+        {
+            Debug.LogWarning("[CollecteGrapePresenter] Please assign a game data!");
+        }
+
+        if (_view == null)
+        {
+            Debug.LogWarning("[CollectedGrapePresenter] Please assign a view!");
+        }
+    }
+
     private void OnEnable()
     {
         if (_gameData != null)
