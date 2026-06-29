@@ -3,54 +3,88 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 {
-    [SerializeField] private int _initHealth = 1;
+    [SerializeField] private GameData _gameData;
+    [SerializeField] private int _initCollectedGrape = 1;
     [SerializeField] private float _takeDamageCooldownTime = 0.5f;
     [SerializeField] private Animator _animator;
     [SerializeField] private string _dieTrigger = "Die";
 
-    private int _health;
-
     private Coroutine _takeDamageCoolDownCoroutine = null;
 
-    public bool IsDead => _health <= 0;
+    public bool IsDead => (_gameData != null) ? _gameData.CollectedGrape <= 0 : false;
+
+    private void OnEnable()
+    {
+        if (_gameData != null)
+        {
+            _gameData.OnDead += OnDead;
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerHealth] No game data is assigned!");
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_gameData != null)
+        {
+            _gameData.OnDead -= OnDead;
+        }
+        else
+        {
+            Debug.LogWarning("[PlayerHealth] No game data is assigned!");
+        }
+    }
 
     private void Start()
     {
-        _health = _initHealth;
+        _gameData.CollectedGrape = _initCollectedGrape;
 
-        PlayerEvents.RaiseCollectedGrapeChanged(_health);
+        //PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     public void Heal(int heal)
     {
         if (IsDead) return;
 
-        _health += heal;
+        if (_gameData == null)
+        {
+            Debug.LogWarning("[PlayerHealth] No game data is assigned!");
+            return;
+        }
 
-        PlayerEvents.RaiseCollectedGrapeChanged(_health);
+        _gameData.AddGrape(heal);
+
+        //PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     public void TakeDamage(int damage)
     {
-        if (_health <= 0 || _takeDamageCoolDownCoroutine != null) return;
+        if (IsDead || _takeDamageCoolDownCoroutine != null) return;
 
-        _health -= damage;
-
-        if (_health <= 0)
+        if (_gameData == null)
         {
-            _health = 0;
-            Dead();
+            Debug.LogWarning("[PlayerHealth] No game data is assigned!");
+            return;
         }
+
+        _gameData.RemoveGrape(damage);
 
         _takeDamageCoolDownCoroutine = StartCoroutine(TakeDamageCooldownCoroutine());
 
-        PlayerEvents.RaiseCollectedGrapeChanged(_health);
+        //PlayerEvents.RaiseCollectedGrapeChanged(_health);
     }
 
     private IEnumerator TakeDamageCooldownCoroutine()
     {
         yield return new WaitForSeconds(_takeDamageCooldownTime);
         _takeDamageCoolDownCoroutine = null;
+    }
+
+    private void OnDead()
+    {
+        Dead();
     }
 
     public void OnMinorHit(GameObject hitObj)
@@ -83,8 +117,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
             _animator.SetTrigger(_dieTrigger);
         }
 
-        _health = 0;
-        PlayerEvents.RaiseCollectedGrapeChanged(_health);
+        //PlayerEvents.RaiseCollectedGrapeChanged(_health);
         PlayerEvents.RaisePlayerDead();
 
         if (TryGetComponent(out PlayerController playerController))

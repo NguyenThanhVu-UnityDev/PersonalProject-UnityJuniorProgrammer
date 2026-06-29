@@ -3,12 +3,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI _grapeCollectedText;
-    [SerializeField] private string _grapeCollectedTextBounceTrigger = "Bounce";
-    [SerializeField] private IncrementText _grapeCollectedIncrementText;
-
     private static UIManager _instance = null;
-    private Animator _grapeCollectedTextAnimator;
 
     public static UIManager Instance { get => Instance; }
 
@@ -19,47 +14,19 @@ public class UIManager : MonoBehaviour
             Destroy(_instance);
         }
         _instance = this;
-
-        if (_grapeCollectedText != null)
-        {
-            _grapeCollectedTextAnimator = _grapeCollectedText.GetComponent<Animator>();
-        }
     }
 
     private void OnEnable()
     {
-        PlayerEvents.OnCollectedGrapeChanged += UpdateGrapeCollectedUI;
+        //PlayerEvents.OnCollectedGrapeChanged += UpdateGrapeCollectedUI;
     }
 
     private void OnDisable()
     {
-        PlayerEvents.OnCollectedGrapeChanged -= UpdateGrapeCollectedUI;
+        //PlayerEvents.OnCollectedGrapeChanged -= UpdateGrapeCollectedUI;
     }
 
     private void UpdateGrapeCollectedUI(int newAmount)
     {
-        if (_grapeCollectedText != null)
-        {
-            // Set increment
-            if (_grapeCollectedIncrementText != null && 
-                PoolManager.Instance != null &&
-                int.TryParse(_grapeCollectedText.text, out int previousAmount))
-            {
-                int increment = newAmount - previousAmount;
-                Debug.Log("Increment: " + increment);
-                var newIncrementText = PoolManager.Instance.SpawnObject(_grapeCollectedIncrementText, _grapeCollectedIncrementText.transform.position, Quaternion.identity);
-                
-                if (newIncrementText != null)
-                {
-                    newIncrementText.SetIncrement(increment);
-                }
-            }
-
-            _grapeCollectedText.text = newAmount.ToString();
-            if (_grapeCollectedTextAnimator != null)
-            {
-                _grapeCollectedTextAnimator.SetTrigger(_grapeCollectedTextBounceTrigger);
-            }
-        }
     }
 }

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(ParticleSystem))]
-public class PooledParticle : MonoBehaviour
+public class PooledParticle : MonoBehaviour, IPoolObject
 {
     private void Awake()
     {
@@ -12,6 +12,11 @@ public class PooledParticle : MonoBehaviour
         particleMain.stopAction = ParticleSystemStopAction.Callback;
     }
     private void OnParticleSystemStopped()
+    {
+        ReturnToPool();
+    }
+
+    public void ReturnToPool()
     {
         if (PoolManager.Instance != null)
         {

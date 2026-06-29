@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class IncrementText : MonoBehaviour
+public class IncrementText : MonoBehaviour, IPoolObject
 {
     [SerializeField] private TextMeshProUGUI _mainText;
     [SerializeField] private Color _increaseColor;
@@ -20,7 +20,14 @@ public class IncrementText : MonoBehaviour
 
     public void Finished()
     {
-        gameObject.SetActive(false);
+        ReturnToPool();
     }
 
+    public void ReturnToPool()
+    {
+        if (PoolManager.Instance != null)
+        {
+            PoolManager.Instance.ReturnToPool(gameObject);
+        }
+    }
 }
