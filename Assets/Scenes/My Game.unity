@@ -915,6 +915,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -990,7 +991,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.3096079, y: -0, z: -0, w: 0.9508644}
-  m_LocalPosition: {x: 0, y: 20.2, z: -10.2}
+  m_LocalPosition: {x: 0, y: 9.7, z: -2.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1040,6 +1041,30 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52214bc97f898ae419de85543a56f9f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 345516000}
+  _updateMode: 1
+  _useInitDistance: 1
+  _defaultOffset: {x: 0, y: 0, z: 0}
+  _followX: 1
+  _followY: 0
+  _followZ: 0
+--- !u!1 &345516000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7730995146601994748, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+  m_PrefabInstance: {fileID: 2269963744417169070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &351550024
 GameObject:
   m_ObjectHideFlags: 0
