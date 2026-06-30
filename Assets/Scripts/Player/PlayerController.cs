@@ -7,21 +7,31 @@ public class PlayerController : MonoBehaviour
     private static PlayerController _currentPlayer;
     public static PlayerController CurrentPlayer { get => _currentPlayer; }
 
+    [Header("Control Settings")]
     [SerializeField] float _defaultRunSpeed = 20f;
     [SerializeField] float _maxRunSpeed = 100f;
     [SerializeField] float _jumpForce = 5f;
     [SerializeField] float _dropForce = 5f;
     [SerializeField] float _cooldownTime = 0.1f;
     [Min(1)]
+
+    [Header("Track Settings")]
     [SerializeField] int _tracksCount = 1;
     [SerializeField] float _trackWidth = 10;
     [SerializeField] float _trackSpacing = 5;
     [SerializeField] Vector3 _centerPosition = new();
     [SerializeField] float _switchingTrackTime = 0.5f;
 
+    [Header("Input Settings")]
     [SerializeField] InputAction _moveAction;
     [SerializeField] InputAction _jumpAction;
     [SerializeField] InputAction _instantDropAction;
+
+    [Header("Audio Settings")]
+    [SerializeField] AudioClip _jumpAudio;
+    [SerializeField] float _jumpAudioVolume = 0.3f;
+    [SerializeField] AudioClip _switchTrackAudio;
+    [SerializeField] float _switchTrackAudioVolume = 0.3f;
 
     private bool _isRunning = false;
 
@@ -141,6 +151,8 @@ public class PlayerController : MonoBehaviour
         if (_switchTrackCoroutine != null) StopCoroutine(_switchTrackCoroutine);
         _switchTrackCoroutine = null;
 
+        Debug.Log("Cancel Move! " + _switchTrackCoroutine);
+
         //if (transform.position.x < _targetPosition.x) MoveLeft();
         //else MoveRight();
     }
@@ -150,6 +162,7 @@ public class PlayerController : MonoBehaviour
         if (_customPhysics != null && _customPhysics.IsOnGround)
         {
             _customPhysics.AddInstantForce(Vector3.up * _jumpForce);
+            UIEvents.RaisePlaySFX(_jumpAudio, _jumpAudioVolume);
         }
     }
 
@@ -188,6 +201,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator SwitchTrackRoutine()
     {
+        UIEvents.RaisePlaySFX(_switchTrackAudio, _switchTrackAudioVolume);
+
         Vector3 start = transform.position;
         Vector3 end = _targetPosition;
 

@@ -167,10 +167,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1.3748856
+  m_Radius: 0.38691434
+  m_Height: 1.2331681
   m_Direction: 1
-  m_Center: {x: 0, y: 0.18744278, z: 0}
+  m_Center: {x: 0, y: 0.2583015, z: -0.067221135}
 --- !u!54 &2513210222087805300
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -303,6 +303,10 @@ MonoBehaviour:
       m_Action: Instant Drop
       m_Flags: 0
     m_Flags: 0
+  _jumpAudio: {fileID: 0}
+  _jumpAudioVolume: 0.3
+  _switchTrackAudio: {fileID: 0}
+  _switchTrackAudioVolume: 0.3
 --- !u!114 &2430085915664710713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 126e9d68361838f41b0d1b879b337993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initHealth: 1
+  _gameData: {fileID: 0}
+  _initCollectedGrape: 1
   _takeDamageCooldownTime: 0.2
   _animator: {fileID: 2952917312107014732}
   _dieTrigger: Die

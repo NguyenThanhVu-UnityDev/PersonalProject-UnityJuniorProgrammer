@@ -111,6 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectedParticlePrefab: {fileID: 2115096563218940472}
+  _collectAudio: {fileID: 0}
+  _collectAudioVolume: 0.3
   _damage: 1
 --- !u!1 &6266938277339660877
 GameObject:

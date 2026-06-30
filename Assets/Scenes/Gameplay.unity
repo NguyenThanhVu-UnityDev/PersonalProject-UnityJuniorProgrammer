@@ -1417,6 +1417,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
+  _delayTime: 0.2
 --- !u!95 &387197494
 Animator:
   serializedVersion: 7
@@ -2055,6 +2058,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
+  _delayTime: 0.2
 --- !u!1001 &604994797
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4483,6 +4489,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
+  _delayTime: 0.2
 --- !u!95 &1495243516
 Animator:
   serializedVersion: 7
@@ -4850,7 +4859,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e903b77354f83d84d8842b699951bc9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acceleration: 0.1
+  _acceleration: 0
+  _gameOverAudio: {fileID: 8300000, guid: 04a62563c07a8d84cbdc56ad27977cf0, type: 3}
+  _gameOverVolume: 0.3
 --- !u!4 &1591084513
 Transform:
   m_ObjectHideFlags: 0
@@ -5249,6 +5260,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8311792794244358665, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
+      propertyPath: _clickSound
+      value: 
+      objectReference: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5678,6 +5693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
+  _delayTime: 0.2
 --- !u!95 &1941225267
 Animator:
   serializedVersion: 7
@@ -6475,6 +6493,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2264225789024234419, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2430085915664710713, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _gravityForce
       value: 20
@@ -6483,6 +6505,14 @@ PrefabInstance:
       propertyPath: _gameData
       value: 
       objectReference: {fileID: 11400000, guid: 2a3fdc60b23f2c24b9a6711e91a38464, type: 2}
+    - target: {fileID: 6511858228702205384, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: _takeDamageAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 49c61e7662ec46146b74cd355f10201d, type: 3}
+    - target: {fileID: 6580944876836590165, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: _jumpAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 936fbefab5b8cd3418ae9f715a6ec63b, type: 3}
     - target: {fileID: 6580944876836590165, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _jumpForce
       value: 10
@@ -6491,6 +6521,10 @@ PrefabInstance:
       propertyPath: _defaultRunSpeed
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 6580944876836590165, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: _switchTrackAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 5f7e8ca884f87ff4c8ab45a9a7e0283c, type: 3}
     - target: {fileID: 7730995146601994748, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: m_Name
       value: Player

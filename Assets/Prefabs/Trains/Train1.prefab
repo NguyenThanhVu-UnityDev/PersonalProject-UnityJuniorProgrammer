@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2336648448369820565}
   - component: {fileID: 8233319589350168760}
   m_Layer: 0
-  m_Name: Hitbox1
+  m_Name: HitboxRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,8 +107,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 18.02334, y: 1, z: 1}
+  m_Center: {x: -8.511672, y: 0, z: 0}
 --- !u!114 &8233319589350168760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 8868543301453414681}
   - component: {fileID: 5685453984957284330}
   m_Layer: 0
-  m_Name: Hitbox2
+  m_Name: HitboxLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -351,8 +351,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 13.68294, y: 1, z: 1}
+  m_Center: {x: 6.3414683, y: 0, z: 0}
 --- !u!114 &5685453984957284330
 MonoBehaviour:
   m_ObjectHideFlags: 0

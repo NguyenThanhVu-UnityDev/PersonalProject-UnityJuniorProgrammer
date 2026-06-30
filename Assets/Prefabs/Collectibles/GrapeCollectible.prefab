@@ -5002,6 +5002,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _collectedParticlePrefab: {fileID: 5050329871030902070}
+  _collectAudio: {fileID: 8300000, guid: 9d0113dd16699ce4ea3c58dd422fdc1f, type: 3}
+  _collectAudioVolume: 0.3
   _heal: 1
 --- !u!114 &3599428005926060700
 MonoBehaviour:

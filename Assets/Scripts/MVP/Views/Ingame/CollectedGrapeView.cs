@@ -27,7 +27,6 @@ public class CollectedGrapeView : MonoBehaviour
                 int.TryParse(_grapeCollectedText.text, out int previousAmount))
             {
                 int increment = newAmount - previousAmount;
-                Debug.Log("Increment: " + increment);
                 var newIncrementText = PoolManager.Instance.SpawnObject(_grapeCollectedIncrementText, _grapeCollectedIncrementText.transform.position, Quaternion.identity);
 
                 if (newIncrementText != null)

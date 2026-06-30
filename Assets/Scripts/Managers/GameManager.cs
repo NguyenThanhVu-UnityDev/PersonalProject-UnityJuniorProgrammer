@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] float acceleration;
+    [SerializeField] float _acceleration;
+    [SerializeField] AudioClip _gameOverAudio;
+    [SerializeField] float _gameOverVolume = 0.3f;
 
     private bool _isGameRunning = false;
 
@@ -33,7 +35,7 @@ public class GameManager : MonoBehaviour
 
         if (PlayerController.CurrentPlayer != null)
         {
-            PlayerController.CurrentPlayer.AddRunSpeed(acceleration * Time.deltaTime);
+            PlayerController.CurrentPlayer.AddRunSpeed(_acceleration * Time.deltaTime);
         }
     }
 
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDead()
     {
         _isGameRunning = false;
+        UIEvents.PlaySFX(_gameOverAudio, _gameOverVolume);
     }
 
     private void PauseGame()

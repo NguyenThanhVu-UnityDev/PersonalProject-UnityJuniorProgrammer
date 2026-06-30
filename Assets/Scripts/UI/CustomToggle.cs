@@ -8,6 +8,9 @@ public class CustomToggle : MonoBehaviour
     [SerializeField] Sprite _isOnSprite;
     [SerializeField] Sprite _isOffSprite;
 
+    [SerializeField] AudioClip _clickSound;
+    [SerializeField] float _clickVolume = 0.3f;
+
     private Toggle _toggle;
 
     private void Awake()
@@ -40,5 +43,7 @@ public class CustomToggle : MonoBehaviour
         {
             _targetGraphic.sprite = (value) ? _isOnSprite : _isOffSprite;
         }
+
+        UIEvents.PlaySFX(_clickSound, _clickVolume);
     }
 }

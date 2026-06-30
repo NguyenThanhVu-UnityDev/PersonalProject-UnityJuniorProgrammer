@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FollowTarget : MonoBehaviour
 {
-    public enum UpdateMode { Update, LateUpdate}
+    public enum UpdateMode { Update, LateUpdate }
 
     [SerializeField] GameObject _target;
     [SerializeField] UpdateMode _updateMode = UpdateMode.LateUpdate;

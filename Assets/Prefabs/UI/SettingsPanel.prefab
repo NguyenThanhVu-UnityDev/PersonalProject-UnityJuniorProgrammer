@@ -747,6 +747,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _clickSound: {fileID: 0}
+  _clickVolume: 0.3
+  _delayTime: 0.2
 --- !u!1 &4147597385703369142
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1178,8 @@ MonoBehaviour:
   _targetGraphic: {fileID: 8047794792125579293}
   _isOnSprite: {fileID: -554078126, guid: fd6cb592190e4d0478872c048c13d0cc, type: 3}
   _isOffSprite: {fileID: -1707305131, guid: fd6cb592190e4d0478872c048c13d0cc, type: 3}
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
 --- !u!1 &6817260591096219358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,6 +1492,8 @@ MonoBehaviour:
   _targetGraphic: {fileID: 6494352862265371575}
   _isOnSprite: {fileID: -554078126, guid: fd6cb592190e4d0478872c048c13d0cc, type: 3}
   _isOffSprite: {fileID: -1707305131, guid: fd6cb592190e4d0478872c048c13d0cc, type: 3}
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
+  _clickVolume: 0.3
 --- !u!1 &8331151964629334038
 GameObject:
   m_ObjectHideFlags: 0

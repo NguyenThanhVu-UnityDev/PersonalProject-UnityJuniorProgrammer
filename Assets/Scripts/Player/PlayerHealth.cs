@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
     [SerializeField] private float _takeDamageCooldownTime = 0.5f;
     [SerializeField] private Animator _animator;
     [SerializeField] private string _dieTrigger = "Die";
+    [SerializeField] private AudioClip _takeDamageAudio;
+    [SerializeField] private float _takeDamageAudioVolume = 0.3f;
 
     private Coroutine _takeDamageCoolDownCoroutine = null;
 
@@ -80,6 +82,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
 
         _gameData.RemoveGrape(damage);
 
+        UIEvents.PlaySFX(_takeDamageAudio, _takeDamageAudioVolume);
+
         _takeDamageCoolDownCoroutine = StartCoroutine(TakeDamageCooldownCoroutine());
 
         //PlayerEvents.RaiseCollectedGrapeChanged(_health);
@@ -98,12 +102,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         if (TryGetComponent(out PlayerController playerController))
         {
             playerController.CancelMove();
+            Debug.Log($"Hit {hitObj.name}! Move {hitObj.transform.position.x} {transform.position.x}");
             if (hitObj.transform.position.x < transform.position.x)
             {
+                Debug.Log("Hit! Move right");
                 playerController.MoveRight();
             }
             else
             {
+                Debug.Log("Hit! Move left");
                 playerController.MoveLeft();
             }
         }
@@ -136,6 +143,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         }
         else
         {
+            _gameData.CollectedGrape = 0;
             _gameData.StopGame();
         }
     }
