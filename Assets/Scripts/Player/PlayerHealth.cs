@@ -91,7 +91,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable, IHealable, IHittable
         _takeDamageCoolDownCoroutine = null;
     }
 
-    public void OnMinorHit(GameObject hitObj)
+    public void OnMinorHit(GameObject hitObj, Collider collider)
     {
         if (IsDead) return;
 

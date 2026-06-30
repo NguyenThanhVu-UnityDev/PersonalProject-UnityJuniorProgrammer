@@ -7,7 +7,7 @@ public class Hitbox : MonoBehaviour
     {
         if (other.TryGetComponent(out IHittable hittable))
         {
-            hittable.OnMinorHit(this.gameObject);
+            hittable.OnMinorHit(gameObject, other);
         }
 
         if (other.TryGetComponent(out IDamageable damageable))

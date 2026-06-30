@@ -11,11 +11,15 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         PlayerEvents.OnPlayerDead += OnPlayerDead;
+        GameEvents.OnPause += PauseGame;
+        GameEvents.OnResume += ResumeGame;
     }
 
     private void OnDisable()
     {
         PlayerEvents.OnPlayerDead -= OnPlayerDead;
+        GameEvents.OnPause -= PauseGame;
+        GameEvents.OnResume -= ResumeGame;
     }
 
     private void Start()
@@ -33,8 +37,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        ResumeGame();
+    }
+
     private void OnPlayerDead()
     {
         _isGameRunning = false;
+    }
+
+    private void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    private void ResumeGame()
+    {
+        Time.timeScale = 1;
     }
 }
