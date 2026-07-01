@@ -72,7 +72,12 @@ Một tựa game endless runner được xây dựng bằng Unity. Người chơ
 
 - **Hệ thống Vật lý Tùy chỉnh:** Lập trình tính toán phát hiện mặt đất, bù trừ vị trí áp sát mặt đất và áp dụng lực trọng trường tùy chỉnh trong [CustomPhysics.cs](Assets/Scripts/Player/CustomPhysics.cs) mà không phụ thuộc vào Rigidbody 3D mặc định của Unity.
 
+![CustomPhysics](Screenshots/CustomPhysics.gif)
+
+
 - **Lặp lại (Infinite Repetition):** Xây dựng một hệ thống lặp lại hình ảnh dựa trên trục tọa độ trong [AutoRepeat.cs](Assets/Scripts/Objects/AutoRepeat.cs) để tự động nối tiếp các mảnh bản đồ/môi trường dựa trên kích thước mesh.
+
+![AutoRepeat](Screenshots/AutoRepeat.gif)
 
 - **Kiến trúc ScriptableObject:** Lưu trữ các tùy chỉnh hệ thống như bật/tắt nhạc nền và âm thanh hiệu ứng bên trong [SettingsData.cs](Assets/Scripts/ScriptableObjects/SettingsData.cs), tự động lưu trữ trạng thái người chơi bằng `PlayerPrefs`.
 
@@ -82,7 +87,7 @@ Một tựa game endless runner được xây dựng bằng Unity. Người chơ
 
 - **Các thành phần UI tương tác mượt mà:** Tạo ra các lớp nút bấm tùy chỉnh [CustomButton.cs](Assets/Scripts/UI/CustomButton.cs) và [CustomToggle.cs](Assets/Scripts/UI/CustomToggle.cs) hỗ trợ độ trễ khi nhấp chuột (tránh nhấn liên tục) và thay đổi hình ảnh nút tương ứng với trạng thái bật/tắt.
 
-![DemoUI](Screenshots/DemoUI.mp4)
+![DemoUI](Screenshots/DemoUI.gif)
 
 
 ## Cấu Trúc Thư Mục Dự Án
