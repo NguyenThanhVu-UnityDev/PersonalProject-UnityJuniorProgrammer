@@ -6,7 +6,7 @@ public class CustomPhysics : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [Tooltip("This is the actual position (relative) of the overlap box of the player")]
     [SerializeField] private Vector3 _groundPoint = new();
-    [Tooltip("Offst of the the overlap box position before using BoxRay, used for a more accurate detection")]
+    [Tooltip("Offset of the the overlap box position before using BoxRay, used for a more accurate detection")]
     [Min(0.01f)]
     [SerializeField] private float _safeZone = 0.01f;
     [SerializeField] private Vector3 _overlapBoxHalfExtents = new(0.5f, 0.5f, 0.5f);
@@ -35,7 +35,6 @@ public class CustomPhysics : MonoBehaviour
     private void Update()
     {
         ApplyGravity();
-        AdjustPosition();
         ApplyVelocity();
         DetectGround();
     }
@@ -55,10 +54,10 @@ public class CustomPhysics : MonoBehaviour
                 if (IsFalling)
                 {
                     _isOnGround = true;
+                    _velocity.y = 0;
                 }
 
                 transform.position += Vector3.down * distanceToSnap;
-                _velocity.y = 0;
             }
             else
             {

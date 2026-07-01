@@ -6500,8 +6500,16 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2430085915664710713, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: _safeZone
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430085915664710713, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _gravityForce
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2430085915664710713, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
+      propertyPath: _overlapBoxHalfExtents.x
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 6511858228702205384, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _gameData
