@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip _gameOverAudio;
     [SerializeField] float _gameOverVolume = 0.3f;
 
+    [SerializeField] float _restartDelay = 1f;
+
     private bool _isGameRunning = false;
+
+    private Coroutine _restartCoroutine = null;
 
     private void OnEnable()
     {
@@ -48,6 +53,11 @@ public class GameManager : MonoBehaviour
     {
         _isGameRunning = false;
         UIEvents.PlaySFX(_gameOverAudio, _gameOverVolume);
+
+        if (_restartCoroutine == null)
+        {
+            _restartCoroutine = StartCoroutine(RestartGameCoroutine());
+        }
     }
 
     private void PauseGame()
@@ -58,5 +68,12 @@ public class GameManager : MonoBehaviour
     private void ResumeGame()
     {
         Time.timeScale = 1;
+    }
+
+    private IEnumerator RestartGameCoroutine()
+    {
+        yield return new WaitForSeconds(_restartDelay);
+        _restartCoroutine = null;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
     }
 }

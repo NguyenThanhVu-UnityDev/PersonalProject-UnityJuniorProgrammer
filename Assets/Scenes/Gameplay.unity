@@ -4863,6 +4863,7 @@ MonoBehaviour:
   _acceleration: 0
   _gameOverAudio: {fileID: 8300000, guid: 04a62563c07a8d84cbdc56ad27977cf0, type: 3}
   _gameOverVolume: 0.3
+  _restartDelay: 1
 --- !u!4 &1591084513
 Transform:
   m_ObjectHideFlags: 0
@@ -6516,7 +6517,7 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 936fbefab5b8cd3418ae9f715a6ec63b, type: 3}
     - target: {fileID: 6580944876836590165, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _jumpForce
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6580944876836590165, guid: e8915aec98ee9654e922a92c14fad038, type: 3}
       propertyPath: _defaultRunSpeed
