@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class IngameUI : MonoBehaviour
 {
+    [SerializeField] AudioClip _backgroundMusic;
+
     [SerializeField] GameplayView _gameplayView;
     [SerializeField] PauseMenuView _pauseMenuView;
 
@@ -37,6 +39,11 @@ public class IngameUI : MonoBehaviour
         {
             _pauseMenuView.OnResume -= Resume;
         }
+    }
+
+    private void Start()
+    {
+        UIEvents.RaisePlayBackgroundMusic(_backgroundMusic);
     }
 
     private void ShowPausePanel()

@@ -12,6 +12,8 @@ public class IncrementText : MonoBehaviour, IPoolObject
 
     public void SetIncrement(int increment)
     {
+        Debug.Log($"[IncrementText] Set increment: {increment}");
+
         _mainText.text = (increment >= 0) ?
             "+" + increment.ToString() :
             increment.ToString();

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class CustomToggle : MonoBehaviour
 
     private Toggle _toggle;
 
+    public Action<bool> OnValueChanged;
+
     private void Awake()
     {
         _toggle = GetComponent<Toggle>();
@@ -20,12 +23,12 @@ public class CustomToggle : MonoBehaviour
 
     private void OnEnable()
     {
-        _toggle.onValueChanged.AddListener(OnValueChanged);
+        _toggle.onValueChanged.AddListener(ValueChanged);
     }
 
     private void OnDisable()
     {
-        _toggle.onValueChanged.RemoveListener(OnValueChanged);
+        _toggle.onValueChanged.RemoveListener(ValueChanged);
     }
 
     public void SetToggle(bool value)
@@ -33,7 +36,7 @@ public class CustomToggle : MonoBehaviour
         _toggle.isOn = value;
     }
 
-    private void OnValueChanged(bool value)
+    private void ValueChanged(bool value)
     {
         if (_targetGraphic == null)
         {
@@ -45,5 +48,6 @@ public class CustomToggle : MonoBehaviour
         }
 
         UIEvents.PlaySFX(_clickSound, _clickVolume);
+        OnValueChanged?.Invoke(value);
     }
 }

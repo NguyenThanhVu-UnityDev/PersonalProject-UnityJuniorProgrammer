@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 7698885634882530205}
   - component: {fileID: 7414034036546901847}
   - component: {fileID: 9154067921825140220}
+  - component: {fileID: 1648916077635843910}
   m_Layer: 5
   m_Name: SettingsPanel
   m_TagString: Untagged
@@ -152,7 +153,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _closeTrigger: Close
+  _backgroundMusicToggle: {fileID: 5721584082260563382}
+  _sfxToggle: {fileID: 1394647884053597928}
   _closeButton: {fileID: 8311792794244358665}
+--- !u!114 &1648916077635843910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1057163128244560604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e88ce032e02e0364eb41625dcae3957d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settingsData: {fileID: 11400000, guid: 1c5add372a72b1c47b2e4cd90384e302, type: 2}
+  _view: {fileID: 9154067921825140220}
 --- !u!1 &1517551876626783849
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc313a48a4eff9a42be2c637a0e77dd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _clickSound: {fileID: 0}
+  _clickSound: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
   _clickVolume: 0.3
   _delayTime: 0.2
 --- !u!1 &4147597385703369142

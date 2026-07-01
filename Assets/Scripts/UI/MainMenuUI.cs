@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MainMenuUI : MonoBehaviour
 {
+    [SerializeField] AudioClip _backgroundMusic;
+
     [SerializeField] MainMenuButtonsView _mainMenuButtonsView;
     [SerializeField] SettingsPanelView _settingsPanelView;
 
@@ -16,7 +18,7 @@ public class MainMenuUI : MonoBehaviour
             _mainMenuButtonsView.OnSettings += Settings;
         }
 
-        if(_settingsPanelView == null)
+        if (_settingsPanelView == null)
         {
             Debug.LogWarning("[MainMenuUI] Please assign a settings panel view!");
         }
@@ -37,6 +39,11 @@ public class MainMenuUI : MonoBehaviour
         {
             _settingsPanelView.OnClose -= SettingsClose;
         }
+    }
+
+    private void Start()
+    {
+        UIEvents.RaisePlayBackgroundMusic(_backgroundMusic);
     }
 
     private void Settings()

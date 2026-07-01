@@ -513,7 +513,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1374,6 +1374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac9400ef056ff140858b15b7d8e561a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _backgroundMusic: {fileID: 8300000, guid: 185d2b180655b5a4586a1218920400aa, type: 3}
   _mainMenuButtonsView: {fileID: 1184947938}
   _settingsPanelView: {fileID: 1337802319}
 --- !u!224 &1337802318 stripped
@@ -1581,6 +1582,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c9b487b9d460c34b8a28ba0b24045e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settingsData: {fileID: 11400000, guid: 1c5add372a72b1c47b2e4cd90384e302, type: 2}
   _backgroundMusic: {fileID: 322139484}
   _sfx: {fileID: 316672397}
 --- !u!4 &2081124868
@@ -1611,54 +1613,6 @@ PrefabInstance:
     - target: {fileID: 1057163128244560604, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
       propertyPath: m_Name
       value: SettingsPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 1057163128244560604, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767225276031699329, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767225276031699329, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767225276031699329, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767225276031699329, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 3767225276031699329, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -328.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4408799054927718324, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4408799054927718324, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4408799054927718324, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 600
-      objectReference: {fileID: 0}
-    - target: {fileID: 4408799054927718324, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 4408799054927718324, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5008497672108384077, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 428.69998
       objectReference: {fileID: 0}
     - target: {fileID: 7698885634882530205, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
       propertyPath: m_Pivot.x
@@ -1740,10 +1694,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8311792794244358665, guid: 993f3c42f20fe4b4cb10fd77bf43c785, type: 3}
-      propertyPath: _clickSound
-      value: 
-      objectReference: {fileID: 8300000, guid: ebb03b2b009894845b81a64051a5c698, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

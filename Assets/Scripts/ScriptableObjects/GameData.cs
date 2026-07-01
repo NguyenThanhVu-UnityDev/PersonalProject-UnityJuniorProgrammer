@@ -38,21 +38,22 @@ public class GameData : ScriptableObject
         _isGameStarted = false;
     }
 
-    public int CollectedGrape 
-    { 
-        get => _collectedGrape; 
+    public int CollectedGrape
+    {
+        get => _collectedGrape;
         set
         {
+            Debug.Log($"[GameData] Set collected grape: {value}");
+
             if (value < 0) _collectedGrape = 0;
             _collectedGrape = value;
             OnCollectedGrapeChanged?.Invoke();
-        } 
+        }
     }
 
     public void AddGrape(int amount)
     {
         CollectedGrape += amount;
-        OnCollectedGrapeChanged?.Invoke();
     }
 
     public void RemoveGrape(int amount)
@@ -63,8 +64,7 @@ public class GameData : ScriptableObject
             return;
         }
 
-        _collectedGrape -= amount;
-        OnCollectedGrapeChanged?.Invoke();
+        CollectedGrape -= amount;
 
         if (_collectedGrape <= 0)
         {
