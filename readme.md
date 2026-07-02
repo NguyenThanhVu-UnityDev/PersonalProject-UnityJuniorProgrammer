@@ -1,6 +1,6 @@
 # Dự Án Cá Nhân Cho Khóa Học Junior Programmer - Tail Rush
 
-Một tựa game endless runner được xây dựng bằng Unity. Người chơi điều khiển nhân vật cáo chạy dọc theo các đường ray song song, thu thập những trái nho để phục hồi máu và né tránh độc tố cũng như các đoàn tàu đang lao tới. Trò chơi sẽ =tăng tốc theo thời gian, thử thách người chơi sống sót lâu nhất có thể.
+Một tựa game endless runner được xây dựng bằng Unity. Người chơi điều khiển nhân vật cáo chạy dọc theo các đường ray song song, thu thập những trái nho để phục hồi máu và né tránh độc tố cũng như các đoàn tàu đang lao tới. Trò chơi sẽ tăng tốc theo thời gian, thử thách người chơi sống sót lâu nhất có thể.
 
 ## Những Điều Tôi Đã Học
 
@@ -32,7 +32,7 @@ Một tựa game endless runner được xây dựng bằng Unity. Người chơ
 
 **Tiến độ mới**
 
-- **Người chơi có thể di chuyển dựa trên input từ Player:** Tích hợp Input System mới thông qua các Action map trong [PlayerController.cs](Assets/Scripts/Player/PlayerController.cs) để xử lý chuyển làn, Nhảy và Tiếp đất nhanh.
+- **Người chơi có thể di chuyển dựa trên input từ Player:** Tích hợp Input System mới thông qua các Action map trong [PlayerController.cs](Assets/Scripts/Player/PlayerController.cs) để xử lý di chuyển động.
 - **Di chuyển của người chơi được giới hạn:** Người chơi chỉ di chuyển theo chiều ngang trên làn cố định, được tính toán động.
 
 **Khái niệm & kỹ năng mới**
@@ -44,7 +44,7 @@ Một tựa game endless runner được xây dựng bằng Unity. Người chơ
 
 **Tính năng mới**
 
-- **Các prefab không phải Player có những di chuyển cơ bản:** Triển khai [MovingObject.cs](Assets/Scripts/Objects/MovingObject.cs) để di chuyển các vật thể về phía người chơi (Tạo cảm giác người chơi di chuyển liên tục).
+- **Các prefab khác có những di chuyển cơ bản:** Triển khai [MovingObject.cs](Assets/Scripts/Objects/MovingObject.cs) để di chuyển các vật thể về phía người chơi (Tạo cảm giác người chơi di chuyển liên tục).
 - **Các đối tượng được tắt đi khi rời khỏi màn hình:** Tái chế các vật thể đã đi khuất màn hình về Pool Manager.
 - **Va chạm giữa các đối tượng được xử lý phù hợp:** Xử lý các Trigger thông qua Interface như `IDamageable` và `IHittable` để trừ máu người chơi và tạo lực đẩy dội ngược sang hai bên khi va chạm.
 - **Các đối tượng được sinh ra tại các vị trí thích hợp theo khoảng thời gian định sẵn:** Tạo đối tượng [LevelSpawner.cs](Assets/Scripts/Managers/LevelSpawner.cs) để sinh ngẫu nhiên tàu hỏa và vật phẩm thu thập trên khắp các làn ray đang hoạt động.
@@ -167,11 +167,30 @@ Personal Project/
 |           |-- IngameUI.cs
 |           `-- MainMenuUI.cs
 |-- Packages/
+|-- Screenshots/
 `-- ProjectSettings/
 ```
-## Screenshot
+## Gameplay Flowchart
+![Gameplay Flowchart](Screenshots/GameplayFlowchart.png)
+Xem thêm tại: [draw.io](https://drive.google.com/file/d/1llweNIA07yFLYd13j9U-eZkxY4vf75zt/view?usp=sharing)
+
+## Screenshots
+
+### Màn hình Main Menu
+![Main menu](Screenshots/MainMenu.png)
+
+### Màn hình Chơi Game
+![Gameplay](Screenshots/Ingame.png)
+
+### Màn hình Paused
+![Paused](Screenshots/PausedMenu.png)
+
+### Màn hình Cài Đặt
+![Win](Screenshots/SettingsMenu.png)
+
 
 ## Video Demo
+[Video Demo Gamplay](https://drive.google.com/file/d/1G1lNeMxVpXfyrmSobURzYw1OTI_L5k2K/view?usp=sharing)
 
 ## Link Sản Phẩm Game
 

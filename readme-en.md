@@ -153,6 +153,7 @@ Personal Project/
 |           |-- IngameUI.cs
 |           `-- MainMenuUI.cs
 |-- Packages/
+|-- Screenshots/
 `-- ProjectSettings/
 ```
 
