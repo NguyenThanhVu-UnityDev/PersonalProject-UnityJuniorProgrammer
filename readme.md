@@ -10,6 +10,7 @@ Một tựa game endless runner được xây dựng bằng Unity. Người chơ
 
 ## Gameplay Flowchart
 ![Gameplay Flowchart](Screenshots/GameplayFlowchart.png)
+
 Xem thêm tại: [draw.io](https://drive.google.com/file/d/1llweNIA07yFLYd13j9U-eZkxY4vf75zt/view?usp=sharing)
 
 ## Screenshots
