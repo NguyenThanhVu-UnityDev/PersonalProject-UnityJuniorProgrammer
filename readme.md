@@ -2,7 +2,33 @@
 
 Một tựa game endless runner được xây dựng bằng Unity. Người chơi điều khiển nhân vật cáo chạy dọc theo các đường ray song song, thu thập những trái nho để phục hồi máu và né tránh độc tố cũng như các đoàn tàu đang lao tới. Trò chơi sẽ tăng tốc theo thời gian, thử thách người chơi sống sót lâu nhất có thể.
 
-## Những Điều Tôi Đã Học
+## Link Sản Phẩm Game
+[Trải nghiệm Tail Rush trên Itch.io](https://nguyenthanhvu.itch.io/tail-rush)
+
+## Video Demo
+[Video Demo Gamplay](https://drive.google.com/file/d/1G1lNeMxVpXfyrmSobURzYw1OTI_L5k2K/view?usp=sharing)
+
+## Gameplay Flowchart
+![Gameplay Flowchart](Screenshots/GameplayFlowchart.png)
+Xem thêm tại: [draw.io](https://drive.google.com/file/d/1llweNIA07yFLYd13j9U-eZkxY4vf75zt/view?usp=sharing)
+
+## Screenshots
+
+### Màn hình Main Menu
+![Main menu](Screenshots/MainMenu.png)
+
+### Màn hình Chơi Game
+![Gameplay](Screenshots/Ingame.png)
+
+### Màn hình Paused
+![Paused](Screenshots/PausedMenu.png)
+
+### Màn hình Cài Đặt
+![Win](Screenshots/SettingsMenu.png)
+
+
+
+## Chi Tiết Những Điều Tôi Đã Học
 
 ### [Lab 1 - Start Your Personal Project](https://learn.unity.com/pathway/junior-programmer/unit/getting-started-1/tutorial/lab-1-start-your-personal-project?version=6.3)
 
@@ -170,31 +196,6 @@ Personal Project/
 |-- Screenshots/
 `-- ProjectSettings/
 ```
-## Gameplay Flowchart
-![Gameplay Flowchart](Screenshots/GameplayFlowchart.png)
-Xem thêm tại: [draw.io](https://drive.google.com/file/d/1llweNIA07yFLYd13j9U-eZkxY4vf75zt/view?usp=sharing)
-
-## Screenshots
-
-### Màn hình Main Menu
-![Main menu](Screenshots/MainMenu.png)
-
-### Màn hình Chơi Game
-![Gameplay](Screenshots/Ingame.png)
-
-### Màn hình Paused
-![Paused](Screenshots/PausedMenu.png)
-
-### Màn hình Cài Đặt
-![Win](Screenshots/SettingsMenu.png)
-
-
-## Video Demo
-[Video Demo Gamplay](https://drive.google.com/file/d/1G1lNeMxVpXfyrmSobURzYw1OTI_L5k2K/view?usp=sharing)
-
-## Link Sản Phẩm Game
-
-[Trải nghiệm Tail Rush trên Itch.io](https://nguyenthanhvu.itch.io/tail-rush)
 
 ## Cách Chạy Dự Án Trên Local
 
